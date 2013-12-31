@@ -46,15 +46,33 @@
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>usage</h2>
 
-<div class="highlight highlight-html"><pre><span class="nt">&lt;iframe</span> <span class="na">src=</span><span class="s">"http://jmervine.github.io/npm-downloads-badge/badge.html?module=MODULE"</span>
-  <span class="na">allowtransparency=</span><span class="s">"true"</span> <span class="na">frameborder=</span><span class="s">"0"</span> <span class="na">scrolling=</span><span class="s">"0"</span> <span class="na">width=</span><span class="s">"100"</span> <span class="na">height=</span><span class="s">"20"</span><span class="nt">&gt;&lt;/iframe&gt;</span>
+<p>With module name:</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;iframe</span>
+    <span class="na">src=</span><span class="s">"http://jmervine.github.io/npm-downloads-badge/badge.html?module=MODULE"</span>
+    <span class="na">allowtransparency=</span><span class="s">"true"</span> <span class="na">frameborder=</span><span class="s">"0"</span> <span class="na">scrolling=</span><span class="s">"0"</span> <span class="na">width=</span><span class="s">"100"</span> <span class="na">height=</span><span class="s">"20"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/iframe&gt;</span>
 </pre></div>
+
+<p>Without module name:</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;iframe</span>
+    <span class="na">src=</span><span class="s">"http://jmervine.github.io/npm-downloads-badge/badge.html?module=MODULE&amp;name=false"</span>
+    <span class="na">allowtransparency=</span><span class="s">"true"</span> <span class="na">frameborder=</span><span class="s">"0"</span> <span class="na">scrolling=</span><span class="s">"0"</span> <span class="na">width=</span><span class="s">"100"</span> <span class="na">height=</span><span class="s">"20"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/iframe&gt;</span>
+</pre></div>
+
+<blockquote>
+<p>Note: The width attribute may need to be adjusted for count and title. The count will not display correctly if width is too low.</p>
+
+<p>See the <a href="https://github.com/jmervine/npm-downloads-badge/blob/master/test.html">test.html</a> file for exampels.</p>
+</blockquote>
 
 <h2>
 <a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>credits</h2>
 
 <ul>
-<li>Idea from: <a href="https://github.com/bcluca">https://github.com/bcluca</a>
+<li>Idea and API call from: <a href="https://github.com/bcluca">https://github.com/bcluca</a>
 </li>
 <li>Basic implementation and style from: <a href="https://github.com/mdo/github-buttons">https://github.com/mdo/github-buttons</a>
 </li>
