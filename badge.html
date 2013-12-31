@@ -1,0 +1,143 @@
+<html>
+<!--
+Credit for basic style and implementation to:
+  https://github.com/mdo/github-badges
+-->
+<head>
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+            font: bold 11px/14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+            text-rendering: optimizeLegibility;
+            overflow: hidden;
+        }
+        .npm-wrapper {
+            height: 20px;
+            overflow: hidden;
+        }
+        .npm-badge,
+        .npm-count {
+            background-color:blue;
+            float: left;
+            padding: 2px 5px 2px 4px;
+            color: #cc3d33;
+            text-decoration: none;
+            text-shadow: 0 1px 0 #fff;
+            white-space: nowrap;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .npm-badge {
+            background-color: #f4f4f2;
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#eaeaea));
+            background-image: -webkit-linear-gradient(#fafafa, #eaeaea);
+            background-image: -moz-linear-gradient(top, #fafafa, #eaeaea);
+            background-image: -ms-linear-gradient(#fafafa, #eaeaea);
+            background-image: -o-linear-gradient(#fafafa, #eaeaea);
+            background-image: linear-gradient(#fafafa, #eaeaea);
+            background-repeat: no-repeat;
+            border: 1px solid #d4d4d4;
+            border-bottom-color: #bcbcbc;
+        }
+        .npm-badge:hover,
+        .npm-badge:focus,
+        .npm-badge:active {
+            color: #cc3d33;
+            text-decoration: none;
+            background-color: #d4d4d4;
+        }
+        .npm-badge:active {
+            background-image: none;
+            -webkit-box-shadow: inset 0 2px 5px rgba(0,0,0,.10);
+               -moz-box-shadow: inset 0 2px 5px rgba(0,0,0,.10);
+                    box-shadow: inset 0 2px 5px rgba(0,0,0,.10);
+        }
+        .npm-count {
+            position: relative;
+            display: none;
+            margin-left: 4px;
+            background-color: #fafafa;
+            border: 1px solid #d4d4d4;
+        }
+        .npm-count:hover,
+        .npm-count:focus {
+            color: #cc3d33;
+        }
+        .npm-count:before,
+        .npm-count:after {
+            content: ' ';
+            position: absolute;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+        }
+        .npm-count:before {
+            top: 50%;
+            left: -3px;
+            margin-top: -4px;
+            border-width: 4px 4px 4px 0;
+            border-right-color: #fafafa;
+        }
+        .npm-count:after {
+            top: 50%;
+            left: -4px;
+            z-index: -1;
+            margin-top: -5px;
+            border-width: 5px 5px 5px 0;
+            border-right-color: #d4d4d4;
+        }
+    </style>
+</head>
+<body>
+<span class="npm-wrapper" id="npm-wrapper">
+    <a class="npm-badge" id="npm-badge" target="_blank">
+        <span id="npm-module">Fetching ...</span>
+    </a>
+    <a class="npm-count" id="npm-count" target="_blank"></a>
+</span>
+</body>
+<script>
+    var params = function params() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }();
+
+    var headTag   = document.getElementsByTagName('head')[0];
+    var badgeTag = document.getElementById('npm-badge');
+    var moduleTag = document.getElementById('npm-module');
+    var countTag  = document.getElementById('npm-count');
+
+    // Add commas to numbers
+    function addCommas(n) {
+        return String(n).replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+
+    function process(obj) {
+        if (obj.rows == 0) {
+            moduleTag.innerHTML = 'Module not found!';
+            countTag.innerHTML  = '';
+        } else {
+            badgeTag.href      = "https://npmjs.org/package/"+params.module;
+            countTag.href       = "https://npmjs.org/package/"+params.module;
+            moduleTag.innerHTML = obj.rows[0].key[0];
+            countTag.style.display = 'block';
+            countTag.innerHTML  = addCommas(obj.rows[0].value);
+        }
+    }
+
+    var req = document.createElement('script');
+    req.src = 'http://isaacs.iriscouch.com:5984/downloads/_design/app/_view/pkg?group_level=1&startkey=[%22'+params.module+'%22]&endkey=[%22'+params.module+'0%22]&callback=process';
+    headTag.insertBefore(req, headTag.firstChild);
+
+</script>
+</html>
+
