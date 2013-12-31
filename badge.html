@@ -1,5 +1,7 @@
 <html>
 <!--
+Author: Joshua P. Mervine <joshua at mervine.net / @mervinej>
+
 Credit for basic style and implementation to:
   https://github.com/mdo/github-badges
 -->
@@ -15,6 +17,7 @@ Credit for basic style and implementation to:
         .npm-wrapper {
             height: 20px;
             overflow: hidden;
+            text-align: middle;
         }
         .npm-badge,
         .npm-count {
@@ -92,12 +95,14 @@ Credit for basic style and implementation to:
     </style>
 </head>
 <body>
-<span class="npm-wrapper" id="npm-wrapper">
-    <a class="npm-badge" id="npm-badge" target="_blank">
-        <span id="npm-module">Fetching ...</span>
-    </a>
-    <a class="npm-count" id="npm-count" target="_blank"></a>
-</span>
+    <center>
+        <span class="npm-wrapper" id="npm-wrapper">
+            <a class="npm-badge" id="npm-badge" target="_blank">
+                <span id="npm-module">Fetching ...</span>
+            </a>
+            <a class="npm-count" id="npm-count" target="_blank"></a>
+        </span>
+    </center>
 </body>
 <script>
     var params = function params() {
@@ -111,6 +116,8 @@ Credit for basic style and implementation to:
         return vars;
     }();
 
+    var mod = params.module||'node';
+
     var headTag   = document.getElementsByTagName('head')[0];
     var badgeTag = document.getElementById('npm-badge');
     var moduleTag = document.getElementById('npm-module');
@@ -123,19 +130,24 @@ Credit for basic style and implementation to:
 
     function process(obj) {
         if (obj.rows == 0) {
-            moduleTag.innerHTML = 'Module not found!';
-            countTag.innerHTML  = '';
+            moduleTag.innerHTML    = 'Module not found!';
+            countTag.innerHTML     = '';
         } else {
-            badgeTag.href      = "https://npmjs.org/package/"+params.module;
-            countTag.href       = "https://npmjs.org/package/"+params.module;
-            moduleTag.innerHTML = obj.rows[0].key[0];
+            badgeTag.href          = "https://npmjs.org/package/"+mod;
+            countTag.href          = "https://npmjs.org/package/"+mod;
             countTag.style.display = 'block';
-            countTag.innerHTML  = addCommas(obj.rows[0].value);
+            countTag.innerHTML     = addCommas(obj.rows[0].value);
+
+            if (params.name === 'false') {
+                moduleTag.innerHTML = 'Downloads:';
+            } else {
+                moduleTag.innerHTML = obj.rows[0].key[0];
+            }
         }
     }
 
     var req = document.createElement('script');
-    req.src = 'http://isaacs.iriscouch.com:5984/downloads/_design/app/_view/pkg?group_level=1&startkey=[%22'+params.module+'%22]&endkey=[%22'+params.module+'0%22]&callback=process';
+    req.src = 'http://isaacs.iriscouch.com:5984/downloads/_design/app/_view/pkg?group_level=1&startkey=[%22'+mod+'%22]&endkey=[%22'+mod+'0%22]&callback=process';
     headTag.insertBefore(req, headTag.firstChild);
 
 </script>
